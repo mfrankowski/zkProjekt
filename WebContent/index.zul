@@ -1,0 +1,63 @@
+<?page title="WydarzeniaList" contentType="text/html;charset=UTF-8"?>
+<zk>
+
+    <style>
+    
+        .fimageedit 
+        { 
+            width: 32px; background-image:    url('./images/Edit.png'); 
+            background-repeat: no-repeat;
+            border: 0 none; 
+            cursor: pointer; 
+        }
+
+        .fimageDelete 
+        { 
+            width: 32px; background-image: url('./images/Delete.png'); 
+            background-repeat: no-repeat; 
+            border: 0 none; 
+            cursor: pointer; 
+        }
+
+    </style> 
+    <window title="Lista Samochodów" width="800px" border="normal"
+        apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('myvm') @init('zkProjekt.ListViewModel')">
+
+        <div>
+            <button label="Dodaj samochod"
+                onClick="@command('addNewSamochod')" />
+        </div>
+        <separator />
+        <listbox id="test" model="@load(myvm.allSamochody)"
+            selectedItem="@bind(myvm.curSelectedSamochod)" emptyMessage="Brak samochodów do wyświetlenia">
+            <listhead sizable="true">
+            	<listheader label="Numer rejestracyjny" width="150px"
+                    sort="auto(numRej)" />
+                <listheader label="Marka" width="150px"
+                    sort="auto(marka)" />
+                <listheader label="Data Przeglądu" width="150px"
+                    sort="auto(dataP)" />
+                    <listheader label="Data ubezpieczenia" width="150px"
+                    sort="auto(dataU)" />
+                <listheader label="Akcje" />
+            </listhead>
+            <template name="model" var="p1">
+                <listitem>
+                	<listcell label="@load(p1.numRej)" />
+                	<listcell label="@load(p1.marka)" />
+                    <listcell label="@load(p1.dataP) @converter('formatedDate', format='dd-MM-yyyy')"/>
+                     <listcell label="@load(p1.dataU) @converter('formatedDate', format='dd-MM-yyyy')"/>
+                    <listcell>
+                        <hbox spacing="20px">
+                            <image sclass="fimageedit"
+                                onClick="@command('editThisSamochod')" />
+                            <image sclass="fimageDelete"
+                                onClick="@command('deleteThisSamochod')" />
+                        </hbox>
+                    </listcell>
+                </listitem>
+            </template>
+        </listbox>
+    </window>
+</zk>
