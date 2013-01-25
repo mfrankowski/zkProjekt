@@ -1,28 +1,40 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
+    <style>
+    
+.hightlight { 
+	color: #1469AB; font-weight: bold; 
+}
+.error {
+	color: red; 
+}
+
+    </style> 
     <window title="Samochód" border="normal" id="CRUD"
-        width="430px" height="auto" apply="org.zkoss.bind.BindComposer"
+        width="500px" height="auto" apply="org.zkoss.bind.BindComposer"
         minimizable="false" mode="modal" maximizable="false" closable="true" position="center"
         viewModel="@id('vm') @init('zkProjekt.CRUDViewModel')"
-        validationMessages = "@id('vmsgs')">
+        validationMessages="@id('vmsgs')"
+        form="@id('fx') @load(vm.selectedSamochod) @save(vm.selectedSamochod, before='save') @validator('zkProjekt.Validator')">
         <separator />
         <label value="Dane samochodu:" />
-        <separator />
         <panel width="100%">
             <panelchildren>
                 <separator />
-                <grid width="99.5%">
+                <grid width="100%">
                     <columns>
                         <column label="" width="150px" />
                         <column label="" />
                     </columns>
                     <rows>
                     	<row>
-                            <hbox>
-                                <label value="Numer rejestracyjny" />
-                            </hbox>
+                            Numer rejestracyjny
+                            <cell>
                             <textbox name="numRej"
-                                value="@bind(vm.selectedSamochod.numRej)" cols="20" />
+                                value="@bind(fx.numRej)" cols="20" />
+                                <label class="error"
+							value="@load(vmsgs['numRej'])" />
+                            </cell>
                         </row>
                         <row>
                             <hbox>
@@ -47,7 +59,6 @@
                             </hbox>
                             <datebox name="data"
                                 value="@bind(vm.selectedSamochod.dataU)" cols="20" format="dd-MM-yyyy" />
-                                <label value="@load(vmsgs[cdBox])" sclass="red" />
                         </row>
                     </rows>
                 </grid>
