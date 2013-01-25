@@ -20,16 +20,48 @@
         }
 
     </style> 
-    <window title="Lista Samochodów" width="800px" border="normal"
-        apply="org.zkoss.bind.BindComposer"
-        viewModel="@id('myvm') @init('zkProjekt.ListViewModel')">
+    
+<zscript deferred="true">
+	String tname = org.zkoss.zkplus.theme.Themes.getCurrentTheme();
+	String bgStyle = "background: " + ("sapphire".equals(tname) ? "#C5E6EF" : "#F7F7F7");
+	b.setStyle(bgStyle);
+	n.setStyle(bgStyle);
+	w.setStyle(bgStyle);
+</zscript>
+<borderlayout id="b" vflex="1">
+<north id="n" size="225px" border="0">
+	<div>
+		<div style="float:right">
+				<textbox sclass="demo-search-inp"/><separator orient="vertical"/><button label="Search Site"/>
+		</div>
+		<image style="padding:0 10px;" src="/images/Car.png"/>
+		<label style="position:relative; top:-120px;padding-left: 50px; font-size:24px;color:#00cc99;font-weight:bold;"
+				value="Zarządzaj samochodami"/>
+	</div>
+</north>
+<!-- Sidebar -->
+<west id="w" width="150px" border="0" splittable="true" margins="0,5,0,0" autoscroll="true">
+	<div>
+		<panel width="100%" border="normal" title="Menu"
+		apply="org.zkoss.bind.BindComposer" viewModel="@id('myvm1') @init('zkProjekt.NawigationViewModel')"> 
+			<panelchildren style="padding:5px;">
+				<vbox>
+					 <button label="Dodaj samochod"
+                onClick="@command('addNewSamochod')"  image="/images/add.png" hoverImage="/images/add2.png"/>
+				</vbox>
+			</panelchildren>
+		</panel>
+	</div>
+</west>
 
-        <div>
-            <button label="Dodaj samochod"
-                onClick="@command('addNewSamochod')" />
-        </div>
-        <separator />
-        <listbox id="test" model="@load(myvm.allSamochody)"
+<center autoscroll="true">
+	<tablelayout columns="2" hflex="1">
+	<tablechildren  width="100%">
+			<panel title="Lista samochodów" border="normal"
+					style="margin-bottom:10px" apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('myvm') @init('zkProjekt.ListViewModel')">
+				<panelchildren>
+				<listbox id="test" model="@load(myvm.allSamochody)"
             selectedItem="@bind(myvm.curSelectedSamochod)" emptyMessage="Brak samochodów do wyświetlenia">
             <listhead sizable="true">
             	<listheader label="Numer rejestracyjny" width="150px"
@@ -59,5 +91,13 @@
                 </listitem>
             </template>
         </listbox>
-    </window>
+
+				</panelchildren>
+			</panel>
+		</tablechildren>
+
+	</tablelayout>
+</center>
+    
+    </borderlayout>
 </zk>
